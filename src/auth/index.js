@@ -1,7 +1,7 @@
 import { API } from "../config";
 import axios from "axios";
 
-export const forgot1 = async (email) => {
+export const forgot1 = async (email, userId) => {
 	const config = {
 		headers: {
 			Accept: "application/json",
@@ -9,7 +9,31 @@ export const forgot1 = async (email) => {
 		},
 	};
 
-	const res = await axios.post(`${API}/forgot1`, { email }, config);
+	let res;
+
+	if (email) {
+		res = await axios.post(`${API}/forgot1`, { email }, config);
+	} else if (userId) {
+		res = await axios.post(`${API}/forgot1`, { userId }, config);
+	}
+
+	return res;
+};
+
+export const forgot2 = async (userId, newPassword) => {
+	const config = {
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+	};
+
+	const res = await axios.post(
+		`${API}/forgot2`,
+		{ userId, newPassword },
+		config
+	);
+
 	return res;
 };
 

@@ -255,3 +255,13 @@ export const updateFaq = async (faq) => {
 export const deleteFaq = async (id) => {
 	await axios.delete(`${API}/faq/${id}`);
 };
+
+// admin update feedback by id
+export const updateById = async (id, values) => {
+	const res = await axios.patch(`${API}/admin/adminFeedback/${id}`, {
+		content: values.content,
+		status: values.status,
+	});
+
+	return res.data;
+};

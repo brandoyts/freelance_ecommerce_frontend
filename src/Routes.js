@@ -23,6 +23,8 @@ import userFAQ from "./user/userFAQ";
 import userFeedback from "./user/userFeedback";
 import adminFeedback from "./admin/adminFeedback";
 import ForgotPassword from "./user/ForgotPassword";
+import AdminUpdateFeedback from "./admin/AdminUpdateFeedback";
+import UserUpdateFeedback from "./user/UserUpdateFeedback";
 
 const Routes = () => {
 	return (
@@ -38,6 +40,16 @@ const Routes = () => {
 					path="/user/dashboard"
 					exact
 					component={Dashboard}
+				/>
+				<PrivateRoute
+					path="/user/userFeedback/:userId/:feedbackId"
+					exact
+					component={UserUpdateFeedback}
+				/>
+				<AdminRoute
+					path="/admin/adminFeedback/:feedbackId"
+					exact
+					component={AdminUpdateFeedback}
 				/>
 				<AdminRoute
 					path="/admin/dashboard"

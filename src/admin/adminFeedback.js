@@ -41,7 +41,7 @@ const adminFeedback = () => {
 				key: item._id,
 				name: item.user.name,
 				content: item.content,
-				status: "Pending",
+				status: item.status ? "Published" : "Pending",
 			}));
 
 			setFeedback(responseFeedback);

@@ -64,3 +64,12 @@ export const getPublishedFeedback = async () => {
 	const res = await axios.get(`${API}/publishedFeedback`);
 	return res;
 };
+
+// user update feedback by id
+export const updateById = async (id, content) => {
+	const res = await axios.patch(`${API}/user/userFeedback/${id}`, {
+		content,
+	});
+
+	return res.data;
+};
