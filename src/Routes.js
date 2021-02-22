@@ -25,6 +25,7 @@ import adminFeedback from "./admin/adminFeedback";
 import ForgotPassword from "./user/ForgotPassword";
 import AdminUpdateFeedback from "./admin/AdminUpdateFeedback";
 import UserUpdateFeedback from "./user/UserUpdateFeedback";
+import SignupAdmin from "./user/SignupAdmin";
 
 const Routes = () => {
 	return (
@@ -34,6 +35,11 @@ const Routes = () => {
 				<Route path="/shop" exact component={Shop} />
 				<Route path="/signin" exact component={Signin} />
 				<Route path="/signup" exact component={Signup} />
+				<Route
+					path="/signup/admin/dlvladmin"
+					exact
+					component={SignupAdmin}
+				/>
 				<Route path="/forgot" exact component={ForgotPassword} />
 				<Route path="/product/:productId" exact component={Product} />
 				<PrivateRoute

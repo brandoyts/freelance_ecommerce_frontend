@@ -33,7 +33,7 @@ const userFeedback = () => {
 				key={item._id}
 				content={item.content}
 				name={item.user.name}
-				date={item.createdAt}
+				date={item.updatedAt}
 			/>
 		));
 	};

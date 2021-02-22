@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../core/Layout";
-import { signup } from "../auth";
+import { adminSignup } from "../auth";
 
-const Signup = () => {
+const SignupAdmin = () => {
 	const [values, setValues] = useState({
 		name: "",
 		email: "",
@@ -41,7 +41,7 @@ const Signup = () => {
 
 		setValues({ ...values, error: false });
 
-		signup({
+		adminSignup({
 			name,
 			email,
 			password,
@@ -222,7 +222,7 @@ const Signup = () => {
 
 	return (
 		<Layout
-			title="Sign Up"
+			title="Admin Sign Up"
 			description="Register for DLVL Studios"
 			className="container col-md-8 offset-md-2"
 		>
@@ -233,4 +233,4 @@ const Signup = () => {
 	);
 };
 
-export default Signup;
+export default SignupAdmin;

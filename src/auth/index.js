@@ -37,6 +37,23 @@ export const forgot2 = async (userId, newPassword) => {
 	return res;
 };
 
+export const adminSignup = (user) => {
+	return fetch(`${API}/signup/admin/dlvladmin`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(user),
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+};
+
 export const signup = (user) => {
 	return fetch(`${API}/signup`, {
 		method: "POST",
