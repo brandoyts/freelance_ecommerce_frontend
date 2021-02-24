@@ -1,4 +1,5 @@
 .jumbotron {
+	margin: 0;
 	width: 30wh;
 	height: 30vh;
 	color: #fff;
@@ -49,6 +50,12 @@
 .jumbotron,
 .nav :hover {
 	border-radius: 0px;
+}
+
+.nav {
+	width: 100% !important;
+	display: flex !important;
+	flex-direction: row !important;
 }
 
 .product-img {

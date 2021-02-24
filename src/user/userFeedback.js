@@ -1,20 +1,43 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { Comment, Tooltip, Avatar, Input, Form, Button } from "antd";
+import {
+	Comment,
+	Tooltip,
+	Avatar,
+	Input,
+	Form,
+	Button,
+	Pagination,
+	Table,
+} from "antd";
 import moment from "moment";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
-import { _createFeedback } from "../admin/apiAdmin";
+import { deleteFeedback, _createFeedback } from "../admin/apiAdmin";
 import { getPublishedFeedback } from "../user/apiUser";
 
 const userFeedback = () => {
 	const [feedback, setFeedback] = useState([]);
+	const [currentItems, setCurrentItems] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1);
+
+	const paginate = () => {
+		const indexOfLastPost = currentPage * 5;
+		const indexOfFirstPost = indexOfLastPost - 5;
+
+		const currentFeedback = feedback.slice(
+			indexOfFirstPost,
+			indexOfLastPost
+		);
+
+		setCurrentItems(currentFeedback);
+	};
 
 	useEffect(() => {
 		const fetchFeedback = async () => {
 			const res = await getPublishedFeedback();
-			console.log(res);
 			setFeedback(res.data.result);
 		};
 
@@ -25,8 +48,18 @@ const userFeedback = () => {
 		};
 	}, []);
 
+	useEffect(() => {
+		paginate();
+	}, [currentPage, feedback]);
+
+	const handleChangePage = (page) => {
+		console.log(currentItems);
+		setCurrentPage(page);
+		// paginate();
+	};
+
 	const renderFeedback = () => {
-		return feedback.map((item) => (
+		return currentItems.map((item) => (
 			<FeedbackCard
 				userId={item.user._id}
 				feedbackId={item._id}
@@ -47,6 +80,13 @@ const userFeedback = () => {
 			<div className="userFeedback">
 				<div className="userFeedback__container">
 					{renderFeedback()}
+					<Pagination
+						defaultPageSize={5}
+						style={{ margin: "25px 0" }}
+						defaultCurrent={currentPage}
+						total={feedback.length}
+						onChange={handleChangePage}
+					/>
 				</div>
 				<div className="userFeedback__form">
 					<FeedbackForm />
@@ -64,21 +104,39 @@ const FeedbackCard = ({ userId, feedbackId, name, content, date }) => {
 			user: { _id, role },
 		} = isAuthenticated();
 
+		const handleDelete = () => {
+			deleteFeedback(feedbackId, null);
+			location.reload();
+		};
+
 		const renderAction = () => {
 			let actions = [];
-
-			console.log("object");
 
 			if (role === 1 && _id === userId) {
 				actions.push(
 					<Link to={`/admin/adminFeedback/${feedbackId}`}>
 						<span className="comment-action">Edit</span>
+					</Link>,
+					<Link
+						to="#"
+						onClick={() => handleDelete()}
+						style={{ marginLeft: "15px" }}
+					>
+						<span className="comment-action">Delete</span>
 					</Link>
 				);
 			} else if (role === 0 && _id === userId) {
 				actions.push(
 					<Link to={`/user/userFeedback/${_id}/${feedbackId}`}>
 						<span className="comment-action">Edit</span>
+					</Link>,
+
+					<Link
+						to="#"
+						onClick={() => handleDelete()}
+						style={{ marginLeft: "15px" }}
+					>
+						<span className="comment-action">Delete</span>
 					</Link>
 				);
 			}
@@ -88,6 +146,11 @@ const FeedbackCard = ({ userId, feedbackId, name, content, date }) => {
 
 		return (
 			<Comment
+				style={{
+					boxShadow: "1px 1px 10px rgba(0, 0, 0, 0.1)",
+					padding: "12px",
+					marginTop: "15px",
+				}}
 				actions={renderAction()}
 				author={name}
 				avatar={<Avatar alt={name}>{name}</Avatar>}

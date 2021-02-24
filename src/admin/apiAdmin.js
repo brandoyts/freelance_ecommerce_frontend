@@ -265,3 +265,32 @@ export const updateById = async (id, values) => {
 
 	return res.data;
 };
+
+export const changeBg = (user, token, background) => {
+	return fetch(`${API}/changeBg/${user}`, {
+		method: "PUT",
+		headers: {
+			Accept: "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: background,
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(err));
+};
+
+export const removeBg = (user, token) => {
+	return fetch(`${API}/removeBg/${user}`, {
+		method: "DELETE",
+		headers: {
+			Accept: "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(err));
+};
